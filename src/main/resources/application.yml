@@ -1,0 +1,44 @@
+spring:
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    content-type: text/html
+    cache: false
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hearing_poetry?useUnicode=true&characterEncoding=utf-8
+    password: 123456
+    username: root
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+    timeout: 0
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 100MB
+mybatis:
+  mapper-locations: mapper/*
+server:
+  session:
+    cookie:
+      max-age: 3600
+
+token:
+  secret: hearing-secret
+  expiration: 86400
+  header: TokenHeader
+management:
+  port: 8000
+  address: 127.0.0.1
+  security:
+    enabled: false
+

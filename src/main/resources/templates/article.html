@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <!-- Basic Page Needs-->
+    <meta charset="utf-8">
+    <title>CafeHome</title>
+
+    <!-- CSS-->
+    <link rel="stylesheet" th:href="@{css/zerogrid.css}">
+    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{css/lightbox.css}">
+
+    <!-- Custom Fonts -->
+    <link th:href="@{font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" th:href="@{css/menu.css}">
+    <script th:src="@{js/jquery1111.min.js}" type="text/javascript"></script>
+    <script th:src="@{js/script.js}"></script>
+
+    <link th:href="@{bootstrap-3.3.7-dist/css/bootstrap.min.css}" rel="stylesheet">
+    <script th:src="@{bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
+
+    <style>
+        .copyright{background: #151515;color: #999;}
+        .copyright .wrapper{padding: 20px;}
+        .copyright ul.quick-link{float: right;}
+        .copyright ul.quick-link li {display: inline-block;margin-right: 10px;}
+        .copyright a{}
+    </style>
+
+</head>
+
+<body class="archive-page">
+<div class="wrap-body">
+    <div class="wrap-body">
+        <div class="header">
+            <div id='cssmenu' >
+                <ul>
+                    <li><a href='hearing'><span>首页</span></a></li>
+                    <li th:if="${key.substring(0,key.indexOf('/')).equals('modernPoetry')}" class="active">
+                        <a href='articleSum?category=modernPoetry&page=1'><span>现代诗歌</span></a>
+                    </li>
+                    <li th:if="${!key.substring(0,key.indexOf('/')).equals('modernPoetry')}">
+                        <a href='articleSum?category=modernPoetry&page=1'><span>现代诗歌</span></a>
+                    </li>
+
+                    <li th:if="${key.substring(0,key.indexOf('/')).equals('ancientPoetry')}" class="active">
+                        <a href='articleSum?category=ancientPoetry&page=1'><span>唐诗宋词</span></a>
+                    </li>
+                    <li th:if="${!key.substring(0,key.indexOf('/')).equals('ancientPoetry')}">
+                        <a href='articleSum?category=ancientPoetry&page=1'><span>唐诗宋词</span></a>
+                    </li>
+
+                    <li th:if="${key.substring(0,key.indexOf('/')).equals('prose')}" class="active">
+                        <a href='articleSum?category=prose&page=1'><span>随笔散文</span></a>
+                    </li>
+                    <li th:if="${!key.substring(0,key.indexOf('/')).equals('prose')}">
+                        <a href='articleSum?category=prose&page=1'><span>随笔散文</span></a>
+                    </li>
+
+                    <li th:if="${key.substring(0,key.indexOf('/')).equals('novel')}" class="active">
+                        <a href='articleSum?category=novel&page=1'><span>小说</span></a>
+                    </li>
+                    <li th:if="${!key.substring(0,key.indexOf('/')).equals('novel')}">
+                        <a href='articleSum?category=novel&page=1'><span>小说</span></a>
+                    </li>
+
+                    <li><a href='articleSum?category=picture&page=1'><span>美图</span></a></li>
+                    <li><a href='myself'><span>个人中心</span></a></li>
+                    <li><a href='connect'><span>联系我</span></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <script type="application/javascript">
+            function collect(key) {
+                if ($("#collectBtn").text()==="已收藏") {
+                    hasCollected()
+                } else {
+                    $.ajax({
+                        url:"/collect",
+                        data:"category="+key.substring(0, key.indexOf('/'))+"&key="+key,
+                        type:"POST",
+                        success:function(result){
+                            if (result.extend.collected) {
+                                alert(result.extend.msg);
+                                $("#collectBtn").text("已收藏");
+                            }
+                        }
+                    });
+                }
+            }
+
+            function hasCollected() {
+                alert("已经收藏过了！")
+            }
+        </script>
+
+        <!--////////////////////////////////////Container-->
+        <section id="container">
+            <div class="wrap-container clearfix">
+                <div id="main-content">
+                    <div class="crumbs">
+                        <ul>
+                            <li><button href="" onclick="window.history.go(-1)">返回</button></li>
+                            <li><button id="collectBtn" th:if="${!hasCollect}" th:onclick="'javascript:collect(\''+${key}+'\');'">收藏</button></li>
+                            <li><button th:if="${hasCollect}" th:onclick="'javascript:hasCollected();'">已收藏</button></li>
+                        </ul>
+                    </div>
+                    <div class="zerogrid">
+                        <div class="wrap-content t-center col-md-10" style="padding: 60px;">
+                            <h1 class="t-center" th:text="'&nbsp;&nbsp;' + ${article[0]}">=====</h1>
+                            <div th:each="item,itemStat : ${article}">
+                                <p th:text="'&nbsp;&nbsp;' + ${item}" style="font-size: small"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--////////////////////////////////////Footer-->
+        <footer>
+            <div class="copyright">
+                <div class="zerogrid wrapper">
+                    Copyright @ hearing
+                    <ul class="quick-link">
+                        <li>Author：刘家东</li>
+                        <li>Email：1124031072@qq.com</li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+</body>
+</html>
